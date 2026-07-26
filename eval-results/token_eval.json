@@ -1,0 +1,66 @@
+{
+  "experiment_meta": {
+    "target_game": "bjjq_1",
+    "model_name": "Qwen3.5-27B-Q4_K_M.gguf",
+    "api_url": "http://localhost:8000/v1/chat/completions",
+    "sgf_content": "(;GM[1]FF[4]CA[UTF-8]AP[Sabaki:0.52.2]SZ[19]DT[2026-07-11]GN[bjjq_1];B[pd];W[cp];B[pp];W[dc];B[np];W[de];B[jp];W[rp];B[jc];W[qn];B[fp];W[dq];B[ep];W[eq];B[fq];W[cn];B[ql];W[qq];B[qo];W[ro];B[pn];W[rn];B[pm])"
+  },
+  "naive_llm": {
+    "description": "直接輸入 SGF，無 RAG，無工具，單次 LLM 呼叫",
+    "status": "success",
+    "elapsed_seconds": 178.63,
+    "prompt_tokens": 329,
+    "completion_tokens": 12201,
+    "thinking_tokens": 0,
+    "total_tokens": 12530,
+    "thinking_preview": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   **Role:** Professional Go Instructor (專業圍棋講師).\n    *   **Task:** Generate a complete opening review report (開局覆盤報告) based on the provided SGF game record.\n    *   **Requirements:**\n        1.  Layout framework & strategic themes (布局框架與戰略主題).\n        2.  Joseki variations & key decision points (定式變化與關鍵決策點).\n        3.  Overall assessment (整體評估).\n        *   Output language: Traditional Chinese (繁體中文).\n        *   No extra explanations, just ...",
+    "output_preview": "# 圍棋開局覆盤報告\n\n**棋譜名稱：** bjjq_1\n**日期：** 2026-07-11\n**棋盤大小：** 19路\n**對局者：** 黑方 vs 白方\n\n---\n\n### 1. 布局框架與戰略主題\n\n本局開局採用典型的**「对角布局」**（Diagonal Opening）。黑方首手佔據右側小目（pd），隨後第三手佔據右側星位（pp），形成右側兩角連片的戰略意圖。白方則以左側小目（cp）與左下角小目（dc）應對，形成左右分治的局面。\n\n*   **黑方戰略：** 黑方採取**「右側大模樣 + 中腹勢力」**的策略。通過第 1、3 手在右側形成垂直配置，並在第 5、7、9 手積極向中腹與左側擴展（np, jp, jc），試圖構建宏大的外勢，並利用中腹的厚味來壓迫白方。\n*   **白方戰略：** 白方採取**「左側實地 + 右側侵消」**的策略。白方在左側（2、4、6、12、14、16）著重於獲取實地與安定，同時在右側（8、10、18、20、22）多次進行侵消與試探，企圖破壞黑方的右側陣勢，將局面導入細棋。\n\n整體來看，本局呈現出黑方重視勢（Moyo）與速度，白方重視地（Terr..."
+  },
+  "experimental_system": {
+    "description": "完整 Multi-Agentic RAG 管線（Go Sensei × N輪 + Lecturer + Translator）",
+    "status": "success",
+    "elapsed_seconds": 86.12,
+    "prompt_tokens": 7510,
+    "completion_tokens": 4973,
+    "total_tokens": 12483,
+    "per_agent_call_log": [
+      {
+        "role": "go_sensei",
+        "prompt_tokens": 874,
+        "completion_tokens": 1145,
+        "total_tokens": 2019
+      },
+      {
+        "role": "go_sensei",
+        "prompt_tokens": 1623,
+        "completion_tokens": 890,
+        "total_tokens": 2513
+      },
+      {
+        "role": "go_sensei",
+        "prompt_tokens": 1786,
+        "completion_tokens": 1261,
+        "total_tokens": 3047
+      },
+      {
+        "role": "lecturer",
+        "prompt_tokens": 1581,
+        "completion_tokens": 919,
+        "total_tokens": 2500
+      },
+      {
+        "role": "translator",
+        "prompt_tokens": 1646,
+        "completion_tokens": 758,
+        "total_tokens": 2404
+      }
+    ],
+    "output_preview": "# 開局覆盤日誌：專業講座\n\n## 1. 佈局架構與戰略主題\n本局開局採用經典的**二連星**架構。**黑1（Q16）**於右上星位落子，優先考量勢力與速度。**白2（C4）**則於左下小目應戰，尋求地與勢的平衡。**黑3（Q4）**於右下完成二連星佈局，構建出強調大規模潛力而非立即守角的斜向架構。\n\n**白4（D17）**於左上小目落子，與白2形成對稱。隨後的**黑5（O4）**與**白6（D15）**皆為高位守角，在穩固角部的同時，保留向邊路擴展的彈性。早期的佈局顯示出黑方以星位架構重視勢力，與白方以小目重視實地的戰略對決。\n\n## 2. 核心定式變化與戰術決策點\n棋局隨即進入左下與右下兩..."
+  },
+  "comparison_summary": {
+    "naive_total_tokens": 12530,
+    "rag_total_tokens": 12483,
+    "token_difference": -47,
+    "rag_overhead_multiplier": 1.0
+  }
+}

@@ -1,0 +1,59 @@
+# ==============================================================================
+# Master Thesis Dependency Configuration (requirements.txt)
+# Thesis Title: 狀態驅動的圍棋解說：結合 Harness 狀態機與檢索增強多智能體大語言模型之研究
+# (State-Driven Go Commentary: Harnessing State Machines and Retrieval-Augmented Multi-Agent LLMs)
+# ==============================================================================
+
+# --- [1. Core Deep Learning & PyTorch Suite] ---
+# CUDA 13.0 / 12.x compatible PyTorch build
+torch==2.10.0+cu130
+torchaudio==2.10.0+cu130
+torchvision==0.25.0+cu130
+
+# --- [2. LLM Serving & Model Pipeline] ---
+vllm==0.19.1
+transformers==5.5.4
+tokenizers==0.22.2
+huggingface-hub==1.11.0
+
+# --- [3. Vector Database & RAG Search Engine] ---
+chromadb==1.1.1
+sentence-transformers==5.3.0
+
+# --- [4. Web API Services & Utilities] ---
+requests>=2.31.0
+chainlit==2.11.1
+pydantic==2.13.3
+
+# --- [5. Multi-Agent & Extended Frameworks] ---
+crewai==1.14.2
+langchain-openai==1.1.11
+litellm==1.82.4
+pdf2image==1.17.0
+
+# ==============================================================================
+# 【環境安裝與快速指令指引 / Installation Instructions】
+# ==============================================================================
+#
+# 1. 【Conda 環境管理工具】 (推薦方案)
+#    conda create -n vllm_2 python=3.12 -y
+#    conda activate vllm_2
+#    pip install -r requirements.txt
+#
+# 2. 【Python 原生 venv 環境】
+#    python3 -m venv venv
+#    source venv/bin/activate  # Linux/macOS
+#    # venv\Scripts\activate   # Windows (PowerShell)
+#    pip install --upgrade pip
+#    pip install -r requirements.txt
+#
+# 3. 【uv 極速包管理工具】
+#    uv venv venv --python 3.12
+#    source venv/bin/activate
+#    uv pip install -r requirements.txt
+#
+# 注意事項：
+# • PyTorch 2.10.0+cu130 需要對應 CUDA 驅動支援。若在特定平台上安裝遇到 PyTorch 輪子檔找不到，
+#   請加上特異性索引源：
+#   pip install torch==2.10.0+cu130 torchaudio==2.10.0+cu130 torchvision==0.25.0+cu130 --extra-index-url https://download.pytorch.org/whl/cu130
+# ==============================================================================
