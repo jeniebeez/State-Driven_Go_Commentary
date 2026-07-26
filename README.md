@@ -44,7 +44,10 @@ State-Driven Go Commentary/
 ├── go_knowledge_base/             # 圍棋定式向量知識庫目錄 (向量資料庫構建掛載點)
 │
 └── eval-results/                  # 論文實驗評估結果
-    └── sgf_rag_multi-agentic-llm.json # ★ 最新黃金實驗完整輸出紀錄
+    ├── sgf_rag_multi-agentic-llm.json # ★ 主要原始實驗紀錄 (含 Harness 快取與軌跡)
+    ├── output_processed.json          # 結構化後處理與標籤清洗數據
+    ├── token_eval.json                # Token 消耗與推論成本統計數據
+    └── llm_as_a_judge.json            # LLM 裁判自動化多維度評分結果
 ```
 
 ---
@@ -102,9 +105,36 @@ State-Driven Go Commentary/
 
 ## 🧪 5. 實驗數據檔案說明 (Evaluation Results)
 
-* **最新黃金實驗結果**：`eval-results/sgf_rag_multi-agentic-llm.json`
-  * 包含完整 **Trie 字典樹檢索 + RAG + Harness 狀態機 + NLI 驗證 + 雙階 Multi-Agentic LLM** 的全量自動化評估 JSON 導出數據。
-  * 備註：早期未採用 Trie 字典樹與精準 Move 檢索時的歷史實驗數據 (如舊版 `rag_multi-agentic-llm_experiment.json`) 已全數歸檔，不收錄於此開源庫中。
+本開源庫於 `eval-results/` 目錄下收錄最新完整的黃金實驗數據與評估結果：
+
+<table width="100%">
+  <thead>
+    <tr>
+      <th width="32%">檔案名稱</th>
+      <th width="68%">檔案內容與實驗用途說明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>eval-results/sgf_rag_multi-agentic-llm.json</code></td>
+      <td><b>主要原始實驗紀錄</b>：包含完整 <b>Trie 字典樹檢索 + RAG + Harness 狀態機 + NLI 驗證 + 雙階 Multi-Agentic LLM</b> 之全量測試導出資料（含 Harness 快取快照、對策歷史軌跡 <code>Ht</code>、英文日誌與繁中解說）。</td>
+    </tr>
+    <tr>
+      <td><code>eval-results/output_processed.json</code></td>
+      <td><b>結構化後處理數據</b>：經過腳本清洗標籤（移除內心思考 <code>&lt;think&gt;</code> 與多餘 XML 標籤）過後的精簡解說數據檔，利於快速閱讀與報告比較。</td>
+    </tr>
+    <tr>
+      <td><code>eval-results/token_eval.json</code></td>
+      <td><b>Token 消耗與成本統計</b>：記載全量測試棋譜在推論過程中各階段的 Prompt / Completion Tokens 數量、Context 視窗佔用比例與推論成本統計。</td>
+    </tr>
+    <tr>
+      <td><code>eval-results/llm_as_a_judge.json</code></td>
+      <td><b>LLM 裁判自動化評估數據</b>：使用大語言模型作為裁判（LLM-as-a-Judge）針對圍棋術語精準度、定式變化覆蓋率與繁中教學流暢度之多維度評分結果。</td>
+    </tr>
+  </tbody>
+</table>
+
+> 💡 **備註**：早期未採用 Trie 字典樹與精準 Move 檢索時的歷史實驗數據（如舊版 `rag_multi-agentic-llm_experiment.json`）已全數歸檔於備份庫中，本開源庫僅收錄最精準之最終黃金數據。
 
 ---
 
