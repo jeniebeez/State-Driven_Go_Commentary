@@ -134,7 +134,32 @@ State-Driven Go Commentary/
   </tbody>
 </table>
 
-> 💡 **備註**：早期未採用 Trie 字典樹與精準 Move 檢索時的歷史實驗數據（如舊版 `rag_multi-agentic-llm_experiment.json`）已全數歸檔於備份庫中，本開源庫僅收錄最精準之最終黃金數據。
+---
+
+## 📊 5. 實驗結果與效能評估 (Experimental Results)
+
+本研究在 10 題經典圍棋佈局測試集上記錄了完整效能數據，並採用 Gemini 3.5 與 Claude Opus 4.6 作為獨立裁判（LLM-as-a-Judge），針對教學解說品質進行自動化評估與量化分析：
+
+### 5.1 評估指標與專業語意相符度 (LLM-as-a-Judge)
+本系統徹底解決了傳統大語言模型在圍棋領域產生的「空間座標幻覺」，在關鍵指標上展現極高精準度：
+
+| 評估指標 (Evaluation Metric) | Gemini 3.5 | Claude Opus 4.6 | 平均分數 (Out of 5.0) |
+| :--- | :---: | :---: | :---: |
+| **棋局物理事實與空間精準度** (Spatial Accuracy) | **5.0** | **5.0** | **5.00** 🏆 |
+| **教學可讀性與本地化品質** (Readability & Localization) | 5.0 | 4.8 | **4.90** |
+| **專業術語與棋形定性對齊度** (Terminology Alignment) | 4.8 | 4.8 | **4.80** |
+| **大局形勢與資料分析合理性** (Positional Reasoning) | 4.5 | 3.6 | **4.05** |
+| **文獻檢索與事實一致性** (Retrieval Consistency) | 4.9 | 3.2 | **4.05** |
+
+### 5.2 推論效率與 Token 消耗對比 (Efficiency & Cost Analysis)
+相比於啟用思考模式 (Reasoning Mode) 的 Naive LLM，本系統透過 Harness 狀態機與檢索導引，在保持極高專業度的同時大幅降低了生成延遲與輸出 Tokens 消耗：
+
+| 比較項目 (Metric) | Naive LLM (含思考鏈) | Harness-RAG 多代理系統 (本研究) | 效能提升 / 差異 |
+| :--- | :---: | :---: | :---: |
+| **推論總耗時** (Inference Time) | 178.6 秒 | **86.1 秒** | ⚡ **加速 51.8% (-92.5s)** |
+| **生成 Tokens** (Completion Tokens) | 12,201 | **4,973** | 📉 **減少 59.2% (-7,228)** |
+| **提示詞 Tokens** (Prompt Tokens) | 329 | 7,510 | +7,181 (檢索與上下文導引) |
+| **總 Tokens 消耗** (Total Tokens) | 12,530 | **12,483** | **-47 Tokens** |
 
 ---
 
@@ -159,17 +184,20 @@ python sgf_rag_multi-agentic-llm.py
 
 ### 6.3 使用 Docker / Docker Compose 執行 (Docker Quickstart)
 
-本專案支援 Docker 容器化隔離環境，並可直接連結外部運行的 vLLM / llama.cpp / Ollama 模型 API：
+本專案支援 Docker 容器化隔離環境，預設執行**主實驗流水線**，亦可獨立執行 **Token 成本評估**：
 
 ```bash
-# 方式 A：使用 Docker Compose 一鍵啟動 (推薦)
-docker compose up --build
+# 1. 執行【主實驗流水線】 (預設系統)
+docker compose up go-commentary --build
 
-# 方式 B：傳統 Docker CLI
+# 2. 執行【Token 消耗與推論成本評估工具】
+docker compose run --rm token-eval
+
+# 3. 使用傳統 Docker CLI 手動指定執行腳本
 docker build -t state-driven-go-commentary .
-docker run --rm -it \
-  -e API_URL="http://host.docker.internal:8000/v1/chat/completions" \
-  -v $(pwd)/eval-results:/app/eval-results \
-  state-driven-go-commentary
+# 執行主實驗
+docker run --rm -it -v $(pwd)/eval-results:/app/eval-results state-driven-go-commentary
+# 執行 Token 成本評估
+docker run --rm -it -v $(pwd)/eval-results:/app/eval-results state-driven-go-commentary python src/token_eval.py
 ```
 

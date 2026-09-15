@@ -1,19 +1,40 @@
 version: '3.8'
 
 services:
+  # ============================================================================
+  # 1. 主實驗流水線 (Main Proposed Pipeline: State-Driven Multi-Agent RAG)
+  # ============================================================================
   go-commentary:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: state_driven_go_commentary
+    command: ["python", "src/sgf_rag_multi-agentic-llm.py"]
     environment:
       - API_URL=${API_URL:-http://host.docker.internal:8000/v1/chat/completions}
       - OPENAI_API_KEY=${OPENAI_API_KEY:-EMPTY}
       - MODEL_NAME=${MODEL_NAME:-qwen3.2-27b}
     volumes:
-      # Mount eval-results to host machine to preserve output JSON files
       - ./eval-results:/app/eval-results
-    # Allow container to access host machine's vLLM / llama.cpp / OpenAI local server
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: "no"
+
+  # ============================================================================
+  # 2. Token 消耗與推論成本評估工具 (Optional Token & Cost Evaluation Script)
+  # ============================================================================
+  token-eval:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: state_driven_go_token_eval
+    command: ["python", "src/token_eval.py"]
+    environment:
+      - API_URL=${API_URL:-http://host.docker.internal:8000/v1/chat/completions}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-EMPTY}
+      - MODEL_NAME=${MODEL_NAME:-qwen3.2-27b}
+    volumes:
+      - ./eval-results:/app/eval-results
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: "no"
