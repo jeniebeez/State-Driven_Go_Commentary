@@ -156,3 +156,20 @@ pip install -r requirements.txt
 cd src
 python sgf_rag_multi-agentic-llm.py
 ```
+
+### 6.3 使用 Docker / Docker Compose 執行 (Docker Quickstart)
+
+本專案支援 Docker 容器化隔離環境，並可直接連結外部運行的 vLLM / llama.cpp / Ollama 模型 API：
+
+```bash
+# 方式 A：使用 Docker Compose 一鍵啟動 (推薦)
+docker compose up --build
+
+# 方式 B：傳統 Docker CLI
+docker build -t state-driven-go-commentary .
+docker run --rm -it \
+  -e API_URL="http://host.docker.internal:8000/v1/chat/completions" \
+  -v $(pwd)/eval-results:/app/eval-results \
+  state-driven-go-commentary
+```
+

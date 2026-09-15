@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  go-commentary:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: state_driven_go_commentary
+    environment:
+      - API_URL=${API_URL:-http://host.docker.internal:8000/v1/chat/completions}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-EMPTY}
+      - MODEL_NAME=${MODEL_NAME:-qwen3.2-27b}
+    volumes:
+      # Mount eval-results to host machine to preserve output JSON files
+      - ./eval-results:/app/eval-results
+    # Allow container to access host machine's vLLM / llama.cpp / OpenAI local server
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: "no"

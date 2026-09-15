@@ -16,7 +16,7 @@ import requests
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_DIR   = os.path.join(CURRENT_DIR, "eval-results")
 OUTPUT_FILE  = os.path.join(OUTPUT_DIR, "token_eval.json")
-API_URL      = "http://localhost:8000/v1/chat/completions"
+API_URL      = os.getenv("API_URL", "http://localhost:8000/v1/chat/completions")
 TARGET_FILE  = "bjjq_1"
 
 # bjjq_1 的原始 SGF 內容（直接嵌入，供 NaiveLLM 使用）
@@ -33,7 +33,7 @@ def get_active_model_name(api_url: str) -> str:
             return res["data"][0]["id"]
     except Exception:
         pass
-    return "qwen2.5-7b"
+    return os.getenv("MODEL_NAME", "qwen3.2-27b")
 
 # ============================================================
 # 實驗一：NaiveLLM（直接輸入 SGF，無 RAG，無工具）

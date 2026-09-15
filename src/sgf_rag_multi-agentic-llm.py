@@ -31,7 +31,7 @@ SGF_PROMPT_DIR = os.path.join(CURRENT_DIR, "source-qipuNsgf", "sgf_prompt")
 OUTPUT_DIR = os.path.join(CURRENT_DIR, "eval-results")
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, "sgf_rag_multi-agentic-llm.json")
 
-API_URL = "http://localhost:8000/v1/chat/completions"
+API_URL = os.getenv("API_URL", "http://localhost:8000/v1/chat/completions")
 COLLECTION_NAME = "kogo_joseki_dict_v2"
 
 def get_active_model_name(api_url: str) -> str:
@@ -42,7 +42,7 @@ def get_active_model_name(api_url: str) -> str:
             return res["data"][0]["id"]
     except Exception:
         pass
-    return "qwen2.5-7b"
+    return os.getenv("MODEL_NAME", "qwen3.2-27b")
 
 MODEL_NAME = get_active_model_name(API_URL)
 print(f"        [系統] 動態檢測到本地端模型名稱為: {MODEL_NAME}", flush=True)
