@@ -72,7 +72,7 @@ State-Driven Go Commentary/
     </tr>
     <tr>
       <td><code>src/go_tactic_analysis.py</code></td>
-      <td><b>4-Fold 座標對稱變換與戰術分析</b>：提供 4-fold 矩陣轉換，將棋盤四角的開局座標統一旋轉映射至「右上角」標準方向，以獲得最高 Trie 匹配率；維護 <code>TRANSLATION_MAP</code> 圍棋術語對照表。</td>
+      <td><b>Sabaki 術語對齊與動態規則判斷</b>：對齊 Sabaki 函式庫以獲取正確的定式與棋形術語，並補足 Sabaki 函式庫所缺乏的基礎動態圍棋規則與術語判斷（如提子 Take、叫吃 Atari、自殺 Suicide、填子 Fill、粘 Connect、天元 Tengen、星位 Hoshi 等）；提供 8 象限對稱變換基礎函數 <code>get_symmetric_coords</code>。</td>
     </tr>
     <tr>
       <td><code>src/token_eval.py</code></td>
